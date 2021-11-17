@@ -5,7 +5,7 @@ const resetCodeBtn = document.querySelector('.editor__reset');
 
 // Setup Ace
 let codeEditor = ace.edit("editorCode");
-let defaultCode = 'print("Hello World!")';
+let defaultCode = 'Escribe tu codigo aqui';
 let consoleMessages = [];
 
 let editorLib = {
@@ -58,9 +58,20 @@ executeCodeBtn.addEventListener('click', () => {
 
     // Obtener el código que digitó el usuario
     const userCode = codeEditor.getValue();
+    $.ajax({ 
+        crossDomain: true,
+        type:"POST", 
+        url:"http://34.134.205.13:8080/exec", 
+        data:JSON.stringify({code:userCode}),
+        success:function(datos){
+            consoleMessages.push({message:datos.result,class:"error"})
+            console.log(datos,consoleMessages)
+            editorLib.printToConsole()        
+        },
+        contentType:"application/json",
+        dataType: "json"
 
-    // Agregar la llamada al endpoint, enviando el "userCode"
-
+    })
     editorLib.printToConsole();
 });
 
