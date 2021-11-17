@@ -21,14 +21,16 @@ def lel():
     content = request.json
     code = content['code']
     res = StringIO()
+    error_flag = False
     with redirect_stdout(res):
         try:
             exec(code)
         except Exception as e:
             linea=traceback.format_exc()
+            error_flag = True
             print("\nError en: ", linea[linea.find('string')+10:len(linea)])
     res = res.getvalue()
-    return jsonify(result = res)
+    return jsonify(result = res, error=error_flag)
 
 if __name__ == '__main__':
     import sys

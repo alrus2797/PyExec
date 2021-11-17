@@ -65,12 +65,12 @@ executeCodeBtn.addEventListener('click', () => {
         url:"http://34.134.205.13:8080/exec", 
         data:JSON.stringify({code:userCode}),
         success:function(datos){
-            // console.log(datos,consoleMessages)
+            console.log(datos,consoleMessages)
             $('.loader').hide('easeOutBounce');
 
             let splitted = datos.result.split('\n').slice(0,-1)
             splitted.forEach(line => {
-                consoleMessages.push({message:line,class:"error"})
+                consoleMessages.push({message:line,class: datos.error ? "log--error": "log--object"})
             })
             editorLib.printToConsole()  
         },
