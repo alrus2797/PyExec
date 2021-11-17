@@ -22,9 +22,10 @@ def lel():
     code = content['code']
     res = StringIO()
     error_flag = False
+    d={}
     with redirect_stdout(res):
         try:
-            exec(code)
+            exec(code,d,d)
         except Exception as e:
             linea=traceback.format_exc()
             error_flag = True
