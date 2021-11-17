@@ -58,15 +58,21 @@ executeCodeBtn.addEventListener('click', () => {
 
     // Obtener el código que digitó el usuario
     const userCode = codeEditor.getValue();
+    $('.loader').show('easeOutBack');
     $.ajax({ 
         crossDomain: true,
         type:"POST", 
         url:"http://34.134.205.13:8080/exec", 
         data:JSON.stringify({code:userCode}),
         success:function(datos){
-            consoleMessages.push({message:datos.result,class:"error"})
-            console.log(datos,consoleMessages)
-            editorLib.printToConsole()        
+            // console.log(datos,consoleMessages)
+            $('.loader').hide('easeOutBounce');
+
+            let splitted = datos.result.split('\n').slice(0,-1)
+            splitted.forEach(line => {
+                consoleMessages.push({message:line,class:"error"})
+            })
+            editorLib.printToConsole()  
         },
         contentType:"application/json",
         dataType: "json"
