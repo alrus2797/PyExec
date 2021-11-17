@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from io import StringIO
 from contextlib import redirect_stdout
-
+import traceback
 
 app = Flask(__name__, static_url_path='', static_folder='./static')
 CORS(app)
@@ -25,7 +25,8 @@ def lel():
         try:
             exec(code)
         except Exception as e:
-            print(e)
+            linea=traceback.format_exc()
+            print("\nError en: ", linea[linea.find('string')+10:len(linea)])
     res = res.getvalue()
     return jsonify(result = res)
 
